@@ -17,7 +17,7 @@ class CreateCitiesTable extends Migration
             $table->increments('id');
             $table->string('city_name');
             $table->string('city_code');
-            //$table->integer('airport_id');
+            $table->integer('airport_id');
             $table->timestamps();
         });
     }

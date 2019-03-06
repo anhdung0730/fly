@@ -11,7 +11,7 @@
             <div class="alert alert-success">
               <b>{{ session()->get('message') }} <a href="{{ route('login') }}">Click here</a> to login.</b>
             </div>
-          @endif
+          @endiff
 
           <div class="panel-body">
             <form class="form-horizontal" method="POST" action="{{ route('register') }}">
