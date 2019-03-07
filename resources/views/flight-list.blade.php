@@ -3,8 +3,9 @@
 @section('content')
   <main>
     <div class="container">
-      {{ $flights }}
       {{ var_dump($input) }}
+      <hr>
+      {{ $results }}
         <section>
             <h2>UAE - Abu Dhabi (AUH) <i class="glyphicon glyphicon-arrow-right"></i> Indonesia - Jakarta (CGK)</h2>
             <article>

@@ -4,6 +4,7 @@
   <main>
     <div class="container">
       <section>
+
         <h3>Flight Booking</h3>
         <div class="panel panel-default">
           <div class="panel-body">
@@ -14,15 +15,17 @@
                   <div class="form-group">
                     <label class="control-label">From: </label>
                     <select class="form-control" name="from" id="from">
-                      <option value="1">TP. Hồ Chí Minh (SGN)</option>
-                      <option value="2">Hà Nội (HAN)</option>
+                      @foreach ($cities as $city)
+                        <option value="{{ $city->id }}">{{ $city->city_name }} ({{ $city->city_code }})</option>
+                      @endforeach
                     </select>
                   </div>
                   <div class="form-group">
                     <label class="control-label">To: </label>
                     <select class="form-control" name="to" id="to">
-                      <option value="1">TP. Hồ Chí Minh (SGN)</option>
-                      <option value="2">Hà Nội (HAN)</option>
+                      @foreach ($cities as $city)
+                        <option value="{{ $city->id }}">{{ $city->city_name }} ({{ $city->city_code }})</option>
+                      @endforeach
                     </select>
                   </div>
                 </div>
@@ -34,13 +37,13 @@
                   </div>
                   <div class="form-group">
                     <div class="radio">
-                      <label><input type="radio" name="flight_type" checked value="one-way">One Way</label>
-                      <label><input type="radio" name="flight_type" value="return">Return</label>
+                      <label><input type="radio" name="flight_type" checked value="0">One Way</label>
+                      <label><input type="radio" name="flight_type" value="1">Return</label>
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="control-label">Return: </label>
-                    <input type="date" name="return-date" class="form-control" value="{{ date("Y-m-d") }}" placeholder="Choose Return Date">
+                    <input type="date" name="return-date" class="form-control" value="" placeholder="Choose Return Date">
                   </div>
                 </div>
                 <div class="col-sm-4">
@@ -63,9 +66,9 @@
                   <div class="form-group">
                     <label class="control-label">Flight Class: </label>
                     <select class="form-control" name="flight-class">
-                      <option value="economy">Economy</option>
-                      <option value="business">Business</option>
-                      <option value="premium-economy">Premium Economy</option>
+                      @foreach ($flightClasses as $flightClass)
+                        <option value="{{ $flightClass->id }}">{{ $flightClass->flight_classes_name }}</option>
+                      @endforeach
                     </select>
                   </div>
                   <div class="form-group">
