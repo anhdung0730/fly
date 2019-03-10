@@ -19,8 +19,8 @@ Route::get('/', [
 
 // flight-list
 Route::get('/flight-list', [
-  'uses' => 'SearchFlightController@search',
-  'as' => 'search'
+  'uses' => 'SearchFlightController@searchFlight',
+  'as' => 'searchFlight'
 ]);
 
 

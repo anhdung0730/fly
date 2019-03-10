@@ -10,4 +10,9 @@ class Flight extends Model
     {
       return $this->beLongsTo(FlightClass::class);
     }
+
+    public function airplane()
+    {
+      return $this->beLongsTo(Airplane::class);
+    }
 }

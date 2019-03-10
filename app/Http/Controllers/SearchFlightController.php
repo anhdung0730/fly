@@ -3,51 +3,58 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth;
-use App\Flight;
-use App\FlightClass;
-use App\City;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class SearchFlightController extends Controller
 {
     public function index()
     {
-      $cities = City::all();
-      $flightClasses = FlightClass::all();
+      $airports = DB::table('airports')->get();
+      $flightClasses = DB::table('flight_classes')->get();
       return view('index', [
-        'cities' => $cities,
+        'airports' => $airports,
         'flightClasses' => $flightClasses
       ]);
     }
 
-    public function search(Request $request)
+    public function searchFlight(Request $request)
     {
-      $flights = Flight::all();
-      $input = $request->all();
+        $validator = Validator::make($request->all(), [
+          'from' => 'required|different:to'
+        ]);
 
-      $whereClause = [
-        'flight_city_from_id' => $input['from'],
-        'flight_city_to_id' => $input['to'],
-        'flight_departure_date' => $input['departure-date'],
-        'flight_return_date' => $input['return-date'],
-        'flight_type' => $input['flight_type'],
-        'flight_class_id' => $input['flight-class'],
-        //'flight_total_passenger' => $input['total-passenger']
-      ];
-      $results = Flight::
-      where([
-          ['flight_city_from_id', '=', $input['from']],
-          ['flight_city_to_id', '=', $input['to']],
-          ['flight_type', '=', $input['flight_type']],
-          ['flight_class_id', '=', $input['flight-class']],
-          ['flight_departure_date', '=', $input['departure-date']],
-          ['flight_return_date', '=', $input['return-date']],
-        ])->get();
+        if ($validator->fails()) {
+            return redirect()
+                        ->back()
+                        ->withErrors($validator->errors())
+                        ->withInput();
+        } else {
+          $input = $request->all();
+          $flights = DB::table('flights')
+                              ->join('airplanes', 'flights.flight_airplane_id', 'airplanes.id')
+                              ->join('airports as airport_from', 'flights.flight_airport_from_id', 'airport_from.id')
+                              ->join('airports as airport_to', 'flights.flight_airport_to_id', 'airport_to.id')
+                              ->select(
+                                'flights.*',
+                                'airplanes.airplane_name',
+                                'airport_from.airport_code as airport_from_code',
+                                'airport_from.city_name as city_from',
+                                'airport_to.airport_code as airport_to_code',
+                                'airport_to.city_name as city_to'
+                              );
+          $flights->where('flight_class_id', '=', $input['flight-class']);
+          if (isset($input['departure-date'])) {
+            $flights = $flights->where('flight_departure_date', '=', $input['departure-date']);
+          }
 
-      return view('flight-list', [
-        'flights' => $flights,
-        'input' => $input,
-        'results' => $results
-      ]);
+          $flights = $flights->paginate(2);
+          $flights->appends(request()->input())->links();
+
+          return view('flight-list', [
+            'input' => $input,
+            'flights' => $flights
+          ]);
+        }
     }
 }
