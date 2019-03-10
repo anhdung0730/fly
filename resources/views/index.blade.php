@@ -37,8 +37,8 @@
                   </div>
                   <div class="form-group">
                     <div class="radio">
-                      <label><input type="radio" name="flight_type" checked value="0">One Way</label>
-                      <label><input type="radio" name="flight_type" value="1">Return</label>
+                      <label><input type="radio" name="flight_type" checked value="1">One Way</label>
+                      <label><input type="radio" name="flight_type" value="2">Return</label>
                     </div>
                   </div>
                   <div class="form-group">

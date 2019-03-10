@@ -31,7 +31,7 @@ class UpdateController extends Controller
   			'gender' => 'required',
   			'phone' => 'required|digits:10',
   			'address' => 'required',
-        'newPassword' => 'min:6'
+        'newPassword' => 'nullable|min:6'
   		]);
 
   		if ($validator->fails()) {
