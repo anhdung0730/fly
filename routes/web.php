@@ -12,20 +12,42 @@
 */
 
 // index
+
+
+/*
+  Flight routes
+*/
+
+// Index
 Route::get('/', [
-  'uses' => 'SearchFlightController@index',
+  'uses' => 'FlightController@index',
   'as' => 'index'
 ]);
 
-// flight-list
+// Search flights
 Route::get('/flight-list', [
-  'uses' => 'SearchFlightController@searchFlight',
+  'uses' => 'FlightController@search',
   'as' => 'searchFlight'
 ]);
 
+// Create flight
+Route::get('/admin/flight/create', [
+  'uses' => 'FlightController@create',
+  'as' => 'createFlight'
+])->middleware('admin');
 
+/*
+  Admin routes
+*/
+Route::get('admin/index', [
+  'uses' => 'AdminController@index',
+  'as' => 'adminIndex'
+])->middleware('admin');
+
+/*
+  User routes
+*/
 Auth::routes();
 Route::get('user/update', 'Auth\UpdateController@index')->name('user.update');
 Route::post('user/update', 'Auth\UpdateController@update')->name('user.update');
-
 Route::get('/home', 'HomeController@index')->name('home');

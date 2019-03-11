@@ -12,15 +12,15 @@ class FlightClassTableSeeder extends Seeder
     public function run()
     {
         DB::table('flight_classes')->insert([
-            'flight_classes_name' => 'Economy',
+            'flight_class_name' => 'Economy',
         ]);
 
         DB::table('flight_classes')->insert([
-            'flight_classes_name' => 'Business',
+            'flight_class_name' => 'Business',
         ]);
 
         DB::table('flight_classes')->insert([
-            'flight_classes_name' => 'Premium Economy',
+            'flight_class_name' => 'Premium Economy',
         ]);
     }
 }

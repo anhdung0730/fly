@@ -11,7 +11,7 @@
               <b>{{ session()->get('message') }}</b>
             </div>
           @endif
-          {{ $user }}
+          
           <form action="{{ route('user.update')}}" name="updateUserInfo" method="POST">
             {{ csrf_field() }}
             <div class="form-group">

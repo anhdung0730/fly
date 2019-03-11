@@ -72,7 +72,7 @@
                     <label class="control-label">Flight Class: </label>
                     <select class="form-control" name="flight-class">
                       @foreach ($flightClasses as $flightClass)
-                        <option value="{{ $flightClass->id }}">{{ $flightClass->flight_classes_name }}</option>
+                        <option value="{{ $flightClass->id }}">{{ $flightClass->flight_class_name }}</option>
                       @endforeach
                     </select>
                   </div>
