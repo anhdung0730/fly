@@ -4,6 +4,11 @@
   <main>
     <div class="container">
       <section>
+        @if (session('status'))
+          <div class="alert alert-success">
+            {{ session('status') }}
+          </div>
+        @endif
 
         <h3>Flight Booking</h3>
         <div class="panel panel-default">
