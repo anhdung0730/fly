@@ -31,6 +31,7 @@ class SearchFlightController extends Controller
                         ->withInput();
         } else {
           $input = $request->all();
+
           $flights = DB::table('flights')
                               ->join('airplanes', 'flights.flight_airplane_id', 'airplanes.id')
                               ->join('airports as airport_from', 'flights.flight_airport_from_id', 'airport_from.id')
@@ -43,17 +44,37 @@ class SearchFlightController extends Controller
                                 'airport_to.airport_code as airport_to_code',
                                 'airport_to.city_name as city_to'
                               );
+
           $flights->where('flight_class_id', '=', $input['flight-class']);
+          $flights = $flights->where('flight_type', '=', $input['flight_type']);
+          $flights->where('flight_airport_from_id', '=', $input['from']);
+          $flights->where('flight_airport_to_id', '=', $input['to']);
+
+          // Check if departure-date is selected
           if (isset($input['departure-date'])) {
             $flights = $flights->where('flight_departure_date', '=', $input['departure-date']);
+          } else {
+            $flights = $flights->where('flight_departure_date', '>=', now());
+          }
+          // Check if return-date is selected
+          if (isset($input['departure-date'])) {
+            $flights = $flights->where('flight_return_date', '=', $input['return-date']);
+
           }
 
+          // Paginate
           $flights = $flights->paginate(2);
           $flights->appends(request()->input())->links();
 
+          $airports = DB::table('airports')->get();
+          $airport_from = $airports[$input['from'] - 1];
+          $airport_to = $airports[$input['to'] - 1];
+
           return view('flight-list', [
             'input' => $input,
-            'flights' => $flights
+            'flights' => $flights,
+            'airport_from' => $airport_from,
+            'airport_to' => $airport_to
           ]);
         }
     }
